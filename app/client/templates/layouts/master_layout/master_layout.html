@@ -1,0 +1,10 @@
+<template name="MasterLayout">
+	<div class="container">
+		{{> Header}}
+  		{{> Errors}}
+  		<div id="main" class="row-fluid">
+  			{{> yield}}
+  		</div>
+  	
+  	</div>
+</template>

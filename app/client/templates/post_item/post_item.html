@@ -1,0 +1,18 @@
+<template name="PostItem">
+	<div class="post">
+		<div class="post-content">
+			<h3><a href="{{url}}">{{title}}</a><span>{{domain}}</span></h3>
+		<p>
+			submitted by {{author}}
+			{{#if ownPost}}
+				{{#linkTo route='postEdit'}}
+					Edit
+				{{/linkTo}}
+			{{/if}}
+		</p>
+		</div>		
+		{{#linkTo route='postPage'}}
+			<span class="btn btn-default discuss">Discuss</span>
+		{{/linkTo}}
+	</div>
+</template>
