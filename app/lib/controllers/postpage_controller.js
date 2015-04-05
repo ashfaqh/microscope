@@ -10,6 +10,7 @@ PostPageController = RouteController.extend({
     // and when all items in this list are ready, this.ready()
     // returns true in any of your route functions.
     this.subscribe('posts');
+    this.subscribe('comments', this.params._id);
   },
 
   data: function () {

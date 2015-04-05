@@ -2,19 +2,6 @@
 /* Client and Server Methods */
 /*****************************************************************************/
 Meteor.methods({
-  /*
-   * Example:
-   *
-   * '/app/items/insert': function (item) {
-   *  if (this.isSimulation) {
-   *    // do some client stuff while waiting for
-   *    // result from server.
-   *    return;
-   *  }
-   *
-   *  // server method logic
-   * }
-   */
 
    '/app/post/insert': function(postAttributes) {
 
@@ -25,8 +12,14 @@ Meteor.methods({
          check(Meteor.userId(), String);
          check(postAttributes, {
             url: String,
-            title: String
+            title: String,
+            commentsCount: Number
          });
+
+         var errors = validatePost(postAttributes);
+         if (errors.url || errors.title) {
+            throw Meteor.Error('invalid-post', 'You must enter a title and url for the post');
+         }
 
          var postWithSameLink = Posts.findOne({url: postAttributes.url});
          if (postWithSameLink) {
@@ -40,7 +33,8 @@ Meteor.methods({
          var post = _.extend(postAttributes, {
             userId: user._id,
             author: user.username,
-            submitted: new Date()
+            submitted: new Date(),
+            commentsCount: 0
          });
 
          var postId = Posts.insert(post);
@@ -51,30 +45,55 @@ Meteor.methods({
 
    '/app/post/update': function(postId, postAttributes) {
 
-         check(postId, String);
-         //check(Meteor.userId(), String);
+         //check(postId, String);
+         //check(postAttributes.userId, String);
          check(postAttributes, {
             url: String,
             title: String
          });
 
-         var postWithSameLink = Posts.findOne({url: postAttributes.url});
+         var postWithSameLink = Posts.findOne({_id: postId});
          if (postWithSameLink) {
+            Posts.update(postId, {$set: postAttributes});
             return {
-               postExists: true,
-               _id: postWithSameLink._id
+               _id: postId
             };
+         } else {
+            throw Meteor.Error('url-changed', 'URL should not be changed in update mode');
          }
-
-         Posts.update(postId, {$set: postAttributes});
-         return {
-            _id: postId
-         };
    },
 
    '/app/post/delete': function(postId) {
       check(postId, String);
       Posts.remove(postId);
-   }
+   },
 
+   '/app/comment/insert': function(commentAttributes) {
+
+         check(this.userId, String);
+         check(commentAttributes, {
+            postId: String,
+            body: String
+         });
+
+         var user = Meteor.user();
+         var currentPost = Posts.findOne({_id: commentAttributes.postId});
+
+         if (!currentPost) {
+            throw Meteor.Error('invalid-comment', 'You must comment on a post');
+         }
+
+         var comment = _.extend(commentAttributes, {
+            userId: user._id,
+            author: user.username,
+            submitted: new Date()
+         });
+
+         var commentId = Comments.insert(comment);
+
+         currentPost.commentsCount += 1;
+         Posts.update(currentPost._id, {$inc: {commentsCount: 1}});
+
+         return commentId;
+   }
 });

@@ -11,6 +11,11 @@ Template.PostEdit.events({
 			title: tmpl.find('[name=title]').value
 		};
 
+		var errors = validatePost(postAttribute);
+		if (errors.url || errors.title) {
+			return Session.set('postSubmitErrors', errors);
+		}
+
 		Meteor.call('/app/post/update', currentPostId, postAttribute, function(error, result) {
 			if (error) {
 				return throwError(error.reason);
@@ -39,12 +44,19 @@ Template.PostEdit.events({
 /* PostEdit: Helpers */
 /*****************************************************************************/
 Template.PostEdit.helpers({
+	errorMessage: function(field) {
+		return Session.get('postSubmitErrors')[field];
+	},
+	errorClass: function(field) {
+		return Session.get('postSubmitErrors')[field] ? 'has-error' : '';
+	}	
 });
 
 /*****************************************************************************/
 /* PostEdit: Lifecycle Hooks */
 /*****************************************************************************/
 Template.PostEdit.created = function () {
+	Session.set('postSubmitErrors', {});	
 };
 
 Template.PostEdit.rendered = function () {

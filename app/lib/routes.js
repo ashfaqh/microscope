@@ -13,11 +13,14 @@ var requireLogin = function() {
 Router.configure({
   layoutTemplate: 'MasterLayout',
   loadingTemplate: 'Loading',
-  notFoundTemplate: 'NotFound'
+  notFoundTemplate: 'NotFound',
+  waitOn: function() {
+    return [Meteor.subscribe('posts')];
+  }
 });
 
-Router.onBeforeAction('dataNotFound', {only: 'postpage'});
-Router.onBeforeAction(requireLogin, {only: 'postSubmit'});
+Router.onBeforeAction('dataNotFound', {only: ['postpage', 'postEdit']});
+Router.onBeforeAction(requireLogin, {only: ['postSubmit', 'postEdit']});
 
 Router.route('/', {
   name: 'home',

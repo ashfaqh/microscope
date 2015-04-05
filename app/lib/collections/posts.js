@@ -25,8 +25,28 @@ Posts = new Mongo.Collection('posts');
       return (_.without(fieldNames, 'url', 'title').length > 0);
     },
 
+    update: function (userId, doc, fieldNames, modifier) {
+      var errors = validatePost(modifier.$set);
+      return errors.title || errors.url;    
+    },
+
     remove: function (userId, doc) {
       return true;
     }
   });
+}
+
+validatePost = function(post) {
+  var errors = {};
+
+  if (!post.title) {
+    errors.title = 'Please fill in a title';
+  }
+
+  if (!post.url) {
+    errors.url = 'Please fill in a url';
+  }
+
+  return errors;
+
 }

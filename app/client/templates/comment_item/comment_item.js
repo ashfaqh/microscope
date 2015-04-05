@@ -1,26 +1,26 @@
 /*****************************************************************************/
-/* :Id: Event Handlers */
+/* CommentItem: Event Handlers */
 /*****************************************************************************/
-Template.PostPage.events({
+Template.CommentItem.events({
 });
 
 /*****************************************************************************/
-/* :Id: Helpers */
+/* CommentItem: Helpers */
 /*****************************************************************************/
-Template.PostPage.helpers({
-	comments: function() {
-		return Comments.find({postId: this._id});
+Template.CommentItem.helpers({
+	submittedText: function() {
+		return this.submitted.toString();
 	}
 });
 
 /*****************************************************************************/
-/* :Id: Lifecycle Hooks */
+/* CommentItem: Lifecycle Hooks */
 /*****************************************************************************/
-Template.PostPage.created = function () {
+Template.CommentItem.created = function () {
 };
 
-Template.PostPage.rendered = function () {
+Template.CommentItem.rendered = function () {
 };
 
-Template.PostPage.destroyed = function () {
+Template.CommentItem.destroyed = function () {
 };
