@@ -13,3 +13,8 @@ Meteor.publish('comments', function (postId) {
 	check(postId, String);
 	return Comments.find({postId: postId});
 });
+
+Meteor.publish('notifications', function (userId) {
+	check(userId, String);
+  	return Notifications.find({userId: userId, read: false});
+});

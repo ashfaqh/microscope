@@ -52,14 +52,19 @@ Meteor.methods({
             title: String
          });
 
-         var postWithSameLink = Posts.findOne({_id: postId});
+         var postWithSameLink = Posts.findOne({url: postAttributes.url});
          if (postWithSameLink) {
+            throw Meteor.Error('invalid-url', 'URL entered already exist');
+         }
+
+         var currentPost = Posts.findOne({_id: postId});
+         if (currentPost) {
             Posts.update(postId, {$set: postAttributes});
             return {
                _id: postId
             };
          } else {
-            throw Meteor.Error('url-changed', 'URL should not be changed in update mode');
+            throw Meteor.Error('invalid-post', 'Post to be updated does not exist');
          }
    },
 
@@ -89,11 +94,15 @@ Meteor.methods({
             submitted: new Date()
          });
 
-         var commentId = Comments.insert(comment);
+         Comments.insert(comment, function(error, result) {
 
-         currentPost.commentsCount += 1;
-         Posts.update(currentPost._id, {$inc: {commentsCount: 1}});
+            Posts.update(currentPost._id, {$inc: {commentsCount: 1}});
 
-         return commentId;
+            comment._id = result;
+            createCommentNotification(comment);
+
+            return comment._Id;
+
+         });
    }
 });

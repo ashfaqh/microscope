@@ -9,7 +9,7 @@ PostSubmitController = RouteController.extend({
     // the subscription handle is added to a reactive list
     // and when all items in this list are ready, this.ready()
     // returns true in any of your route functions.
-    this.subscribe('posts');
+    this.subscribe('posts');    
   },
 
   data: function () {
