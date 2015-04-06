@@ -1,8 +1,10 @@
 <template name="PostsList">
 	<div class="posts page">
-		{{#each posts}}
-			{{> PostItem}}
-		{{/each}}
+		<div class="wrapper">
+			{{#each posts}}
+				{{> PostItem}}
+			{{/each}}			
+		</div>
 
 		{{#if nextPath}}
 			<a href="{{nextPath}}" class="load-more">Load More</a>
