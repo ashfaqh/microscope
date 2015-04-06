@@ -39,10 +39,20 @@ Router.route('posts/:_id', {
   where: 'client'
 });
 
-Router.route('/:postLimit?', {
+Router.route('/new/:postLimit?', {
+  name: 'newPosts',
+  controller: 'NewPostController'
+});
+
+Router.route('/best/:postLimit?', {
+  name: 'bestPosts',
+  controller: 'BestPostController'
+});
+
+Router.route('/', {
   name: 'home',
-  controller: 'HomeController',
-  action: 'action',
+  controller: 'NewPostController',
+//  action: 'action',
   where: 'client'
 });
 

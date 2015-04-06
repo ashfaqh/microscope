@@ -34,7 +34,9 @@ Meteor.methods({
             userId: user._id,
             author: user.username,
             submitted: new Date(),
-            commentsCount: 0
+            commentsCount: 0,
+            upvoters: [],
+            votes: 0
          });
 
          var postId = Posts.insert(post);
@@ -45,8 +47,7 @@ Meteor.methods({
 
    '/app/post/update': function(postId, postAttributes) {
 
-         //check(postId, String);
-         //check(postAttributes.userId, String);
+         check(postId, String);
          check(postAttributes, {
             url: String,
             title: String
@@ -104,5 +105,24 @@ Meteor.methods({
             return comment._Id;
 
          });
+   },
+
+   '/app/post/upvote': function(postId) {
+
+         check(postId, String);
+         check(this.userId, String);
+
+         var affected = Posts.update({
+            _id: postId,
+            upvoters: {$ne: this.userId}
+         }, {
+            $addToSet: {upvoters: this.userId},
+            $inc: {votes: 1}            
+         });
+
+         if (! affected) {
+            throw Meteor.Error('invalid', 'You were not able to upvote that post');
+         }
    }
+
 });
