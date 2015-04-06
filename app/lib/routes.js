@@ -25,13 +25,12 @@ Router.configure({
 Router.onBeforeAction('dataNotFound', {only: ['postpage', 'postEdit']});
 Router.onBeforeAction(requireLogin, {only: ['postSubmit', 'postEdit']});
 
-Router.route('/', {
-  name: 'home',
-  controller: 'HomeController',
+Router.route('posts/:_id/edit', {
+  name: 'postEdit',
+  controller: 'PostEditController',
   action: 'action',
   where: 'client'
 });
-
 
 Router.route('posts/:_id', {
   name: 'postPage',
@@ -40,16 +39,17 @@ Router.route('posts/:_id', {
   where: 'client'
 });
 
-Router.route('post_submit', {
-  name: 'postSubmit',
-  controller: 'PostSubmitController',
+Router.route('/:postLimit?', {
+  name: 'home',
+  controller: 'HomeController',
   action: 'action',
   where: 'client'
 });
 
-Router.route('posts/:_id/edit', {
-  name: 'postEdit',
-  controller: 'PostEditController',
+
+Router.route('post_submit', {
+  name: 'postSubmit',
+  controller: 'PostSubmitController',
   action: 'action',
   where: 'client'
 });

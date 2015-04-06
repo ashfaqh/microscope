@@ -8,9 +8,9 @@ Template.PostsList.events({
 /* PostsList: Helpers */
 /*****************************************************************************/
 Template.PostsList.helpers({
-	posts: function() {
+/*	posts: function() {
 		return Posts.find({}, {sort: {submitted: -1}});
-	}
+	} */
 });
 
 /*****************************************************************************/
