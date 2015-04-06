@@ -10,7 +10,8 @@ Meteor.publish('posts', function (options) {
 		sort: Object,
 		limit: Number
 	});
- 	return Posts.find({}, options);
+ 	// return Posts.find({}, options);
+ 	return Posts.find();
 });
 
 Meteor.publish('singlePost', function(id) {

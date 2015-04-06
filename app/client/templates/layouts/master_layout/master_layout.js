@@ -4,7 +4,7 @@ Template.MasterLayout.helpers({
 Template.MasterLayout.events({
 });
 
-Template.layout.rendered = function() { 
+/* Template.Masterlayout.rendered = function() { 
 	this.find('#main')._uihooks = {
 
 		insertElement: function(node, next) { 
@@ -19,5 +19,5 @@ Template.layout.rendered = function() {
 				$(this).remove();
 			}); 
 		}
-	} 
-}
+	};
+}; */

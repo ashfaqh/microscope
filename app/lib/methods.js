@@ -70,13 +70,13 @@ Meteor.methods({
    },
 
    '/app/post/delete': function(postId) {
-      check(postId, String);
+      //check(postId, String);
       Posts.remove(postId);
    },
 
    '/app/comment/insert': function(commentAttributes) {
 
-         check(this.userId, String);
+        check(this.userId, String);
          check(commentAttributes, {
             postId: String,
             body: String
