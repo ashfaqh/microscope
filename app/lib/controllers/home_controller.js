@@ -12,7 +12,7 @@ HomeController = RouteController.extend({
   	return {sort: this.sort, limit: this.postLimit()};
   },
 
-  subscriptions: function() {
+  waitOn: function() {
   	this.postsSub = Meteor.subscribe('posts', this.findOptions());
   },
 

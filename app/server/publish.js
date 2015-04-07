@@ -6,12 +6,17 @@
 
 
 Meteor.publish('posts', function (options) {
+/*	if (!options) {
+		console.log("Ennada nadakudhu..");
+		console.log(Router.current().route.getName());
+		return;
+	} */
+	console.log(JSON.stringify(options));
 	check(options, {
 		sort: Object,
 		limit: Number
 	});
- 	// return Posts.find({}, options);
- 	return Posts.find();
+ 	return Posts.find({}, options);
 });
 
 Meteor.publish('singlePost', function(id) {

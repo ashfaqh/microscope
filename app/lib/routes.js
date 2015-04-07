@@ -15,7 +15,7 @@ Router.configure({
   loadingTemplate: 'Loading',
   notFoundTemplate: 'NotFound',
   waitOn: function() {
-    Meteor.subscribe('posts');
+//    Meteor.subscribe('posts');
     if (Meteor.userId()) {
       Meteor.subscribe('notifications', Meteor.userId());
     }
